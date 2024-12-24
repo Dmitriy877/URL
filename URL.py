@@ -11,12 +11,15 @@ def shorten_link(token, url):
 
 	payload = {"access_token":token,
 	 "v":5.199,
-	 "url":"dvmn.org/modules "
+	 "url": url
 	 }
 
 	link_url = 'https://api.vk.ru/method/utils.getShortLink'
-	response = requests.get(link_url, params=payload)
-	response.raise_for_status()
+	try:
+		response = requests.get(link_url, params=payload)
+		response.raise_for_status()
+	except:
+		print("invalid url")
 	return response.json()["response"]["short_url"]
 
 
@@ -26,8 +29,6 @@ def main():
 	load_dotenv()
 	token = os.getenv("VK_API_KEY")
 	url = input("Введите ссылку: ")
-
-	shorten_link(token, url)
 	print('Сокращенная ссылка: ', shorten_link(token, url))
 
 
