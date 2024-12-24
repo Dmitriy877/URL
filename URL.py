@@ -6,21 +6,44 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def main():
 
-	load_dotenv()
-	apikey = os.getenv("VK_API_KEY")
-	url = "vk.cc/cvPDMl"
+def shorten_link(token, url):
 
-	payload = {"access_token":apikey,
+	payload = {"access_token":token,
 	 "v":5.199,
 	 "url":"dvmn.org/modules "
 	 }
 
-	time_url = 'https://api.vk.ru/method/utils.getShortLink'
-	response = requests.get(time_url, params=payload)
+	link_url = 'https://api.vk.ru/method/utils.getShortLink'
+	response = requests.get(link_url, params=payload)
 	response.raise_for_status()
-	print(response.text)
+	print(response.json()["response"]["short_url"])
+
+
+
+def main():
+
+	load_dotenv()
+	token = os.getenv("VK_API_KEY")
+	url = "https://dvmn.org/modules/"
+
+	shorten_link(token, url)
+	print('Сокращенная ссылка: ', shorten_link(token, url))
+
+
+
+
+	# payload = {"access_token":token,
+	#  "v":5.199,
+	#  "url":"dvmn.org/modules "
+	#  }
+
+
+
+	# time_url = 'https://api.vk.ru/method/utils.getShortLink'
+	# response = requests.get(time_url, params=payload)
+	# response.raise_for_status()
+	# print("Ваш URL:",response.text)
 
 
 
