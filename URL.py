@@ -34,13 +34,12 @@ def count_clicks(token, link):
 
 def is_shorten_link(url):
 	parsed = urlparse(url)
-	is_shorten_link_url =  parsed[2]
-	is_shorten_link_url_edit = is_shorten_link_url[1:]
-	
+
 	if len(parsed[2]) <=7:
-		return is_shorten_link_url_edit
+		return True
 	else:
 		return False
+
 
 def main():
 
@@ -54,14 +53,15 @@ def main():
 			short_link = shorten_link(token, url)["response"]["short_url"]
 			print("Сокращенная ссылка", short_link)
 		else:
-			link = is_shorten_link(url)
+			is_shorten_link_url =  urlparse(url)[2]
+			is_shorten_link_url_edit = is_shorten_link_url[1:]
+			link = is_shorten_link_url_edit
 			click_amount = count_clicks(token, link)["response"]["stats"][0]["views"]
 			print("Количество переходов по ссылке: ", click_amount)
 
 	except KeyError:
 
 		print("Некорректный URL!")
-
 
 if __name__ == '__main__':
     main()
