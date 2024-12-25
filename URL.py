@@ -34,9 +34,11 @@ def count_clicks(token, link):
 
 def is_shorten_link(url):
 	parsed = urlparse(url)
-
+	is_shorten_link_url =  parsed[2]
+	is_shorten_link_url_edit = is_shorten_link_url[1:]
+	
 	if len(parsed[2]) <=7:
-		return True
+		return is_shorten_link_url_edit
 	else:
 		return False
 
@@ -46,93 +48,19 @@ def main():
 	token = os.getenv("VK_API_KEY")
 	url = input("Введите ссылку: ")
 
-
 	try:
 
-		if is_shorten_link(url) == True:
-			link = shorten_link(token, url)["response"]["key"]
-			click_amount = count_clicks(token, link)["response"]["stats"][0]["views"]
-			print("Количество переходов по ссылке: ", click_amount)
-		else:
+		if is_shorten_link(url) == False:
 			short_link = shorten_link(token, url)["response"]["short_url"]
 			print("Сокращенная ссылка", short_link)
+		else:
+			link = is_shorten_link(url)
+			click_amount = count_clicks(token, link)["response"]["stats"][0]["views"]
+			print("Количество переходов по ссылке: ", click_amount)
 
 	except KeyError:
 
 		print("Некорректный URL!")
-
-
-
-
-
-
-
-
-	# try:
-
-		
-
-
-	# 	url_is_shorten_link = is_shorten_link(url)[1]
-
-
-	# 	short_link = shorten_link(token, url)["response"]["short_url"]
-	# 	print("Сокращенная ссылка", short_link)
-
-	# 	link = shorten_link(token, url)["response"]["key"]
-	# 	click_amount = count_clicks(token, link)["response"]["stats"][0]["views"]
-	# 	print("Количество переходов по ссылке: ", click_amount)
-
-
-	# except KeyError:
-	# 	print("Некорректный URL!")
-
-
-
-
-
-
-
-
-
-
-
-# short_link = shorten_link(token, url)["response"]["short_url"]
-# 		print("Сокращенная ссылка", short_link)
-
-# 		link = shorten_link(token, url)["response"]["key"]
-# 		click_quantity = count_clicks(token, link)["response"]["views"]
-# 		print("Количнство просмотров", click_quantity)
-
-	# payload = {"access_token":token,
-	#  "v":5.199,
-	#  "url":"dvmn.org/modules "
-	#  }
-
-
-
-	# time_url = 'https://api.vk.ru/method/utils.getShortLink'
-	# response = requests.get(time_url, params=payload)
-	# response.raise_for_status()
-	# print("Ваш URL:",response.text)
-
-
-
-
-
-	# time_url = 'https://api.vk.ru/method/utils.getServerTime'
-	# response = requests.get(time_url, params=payload)
-	# response.raise_for_status()
-	# print(response.text)
-
-
-	# payload = {"text": "python"}
-
-	# response = requests.get('https://yandex.ru', params=payload)
-	# response.raise_for_status()
-
-	# >>> response.url
-	# 'https://yandex.ru/?text=python'
 
 
 if __name__ == '__main__':
