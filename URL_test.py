@@ -32,28 +32,20 @@ def count_clicks(token, link):
 	return response.json()["response"]["stats"][0]["views"]
 
 
-def is_shorten_link(url):
+def is_shorten_link(url, token):
 
-	return urlparse(url)
+	payload = {"access_token":token,
+	 "v":5.199,
+	 "url": url
+	 }
+	link_url = 'https://api.vk.ru/method/utils.getShortLink'
 
-	# payload_click = {"access_token":token,
-	#  "v":5.199,
-	#  "key": link,
-	#  "interval": "forever",
-	#  "extended": 0
-	#  }
-
-	# click_url = 'https://api.vk.ru/method/utils.getLinkStats'
-	# response = requests.get(click_url, params=payload_click)
-	# response.raise_for_status()
-	# return response.json()
-
-	# parsed = urlparse(url)
-
-	# if len(parsed[2]) <=7:
-	# 	return True
-	# else:
-	# 	return False
+	try:
+		response = requests.get(link_url, params=payload)
+		if "short_url" in response.json()["response"]:
+			return False
+	except KeyError:
+		return True
 
 
 def main():
@@ -62,11 +54,78 @@ def main():
 	token = os.getenv("VK_API_KEY")
 	url = input("Введите ссылку: ")
 
-	is_shorten_link_url =  urlparse(url)[2]
-	is_shorten_link_url_edit = is_shorten_link_url[1:]
-	link = is_shorten_link_url_edit
+	try:
 
-	print(shorten_link(token, url))
+		if is_shorten_link(url, token) == False:
+			short_link = shorten_link(token, url)
+			print("Сокращенная ссылка", short_link)
+		else:
+			is_shorten_link_url =  urlparse(url)[2]
+			is_shorten_link_url_edit = is_shorten_link_url[1:]
+			link = is_shorten_link_url_edit
+			click_amount = count_clicks(token, link)
+			print("Количество переходов по ссылке: ", click_amount)
+
+	except KeyError:
+
+		print("Некорректный URL!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	# print(is_shorten_link(url, token))
+
+
+
+
+
+
+
+
+
+
+
+
+	# payload = {"access_token":token,
+	#  "v":5.199,
+	#  "url": url
+	#  }
+
+	# link_url = 'https://api.vk.ru/method/utils.getShortLink'
+	# response = requests.get(link_url, params=payload)
+	# response.raise_for_status()
+
+
+
+
+
+	# is_shorten_link_url =  urlparse(url)[2]
+	# is_shorten_link_url_edit = is_shorten_link_url[1:]
+	# link = is_shorten_link_url_edit
+
+
 
 
 
