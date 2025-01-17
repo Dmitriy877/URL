@@ -32,6 +32,23 @@ def count_clicks(token, link):
 	return response.json()["response"]["stats"][0]["views"]
 
 
+# def is_shorten_link(url, token):
+
+# 	payload = {"access_token":token,
+# 	"v":5.199,
+# 	"url": url
+# 	}
+# 	link_url = 'https://api.vk.ru/method/utils.getShortLink'
+
+# 	try:
+# 		response = requests.get(link_url, params=payload)
+# 		if "short_url" in response.json()["response"]:
+# 			return False
+# 	except KeyError:
+# 		return True
+
+
+
 def is_shorten_link(link, token):
 
 	payload_click = {"access_token":token,
@@ -52,13 +69,16 @@ def is_shorten_link(link, token):
 		return True
 
 
-def main():
 
+
+
+def main():
 
 	load_dotenv()
 	token = os.environ["VK_API_KEY"]
 	url = input("Введите ссылку: ")
 	link = urlparse(url)[2][1:]
+
 
 	try:
 
@@ -72,6 +92,45 @@ def main():
 	except KeyError:
 
 		print("Вы ввели неправильную ссылку!")
+
+
+
+
+
+	# try:
+
+	# 	if is_shorten_link(link, token):
+	# 		short_link = shorten_link(token, url)
+	# 		print("Сокращенная ссылка", short_link)
+	# 	else:
+	# 		link = urlparse(url)[2][1:]
+	# 		click_amount = count_clicks(token, link)
+	# 		print("Количество переходов по ссылке: ", click_amount)
+
+	# except KeyError:
+
+	# 	print("Вы ввели неправильную ссылку!")
+
+
+
+
+
+
+
+
+	# try:
+
+	# 	if not is_shorten_link(url, token):
+	# 		short_link = shorten_link(token, url)
+	# 		print("Сокращенная ссылка", short_link)
+	# 	else:
+	# 		link = urlparse(url)[2][1:]
+	# 		click_amount = count_clicks(token, link)
+	# 		print("Количество переходов по ссылке: ", click_amount)
+
+	# except KeyError:
+
+	# 	print("Вы ввели неправильную ссылку!")
 
 
 if __name__ == '__main__':
