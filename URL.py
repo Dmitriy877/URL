@@ -1,5 +1,6 @@
 import requests
 import os
+import argparse
 from dotenv import load_dotenv
 from urllib.parse import urlparse
 
@@ -49,8 +50,15 @@ def is_shorten_link(link, token):
 def main():
 
     load_dotenv()
+    
+    parser = argparse.ArgumentParser(
+        description='Описание что делает программа'
+    )
+    parser.add_argument("URL", help="URL")
+    args = parser.parse_args()
+
     token = os.environ["VK_API_KEY"]
-    url = input("Введите ссылку: ")
+    url = args.URL
     link = urlparse(url).path[1:]
 
     try:
