@@ -9,7 +9,7 @@ TODO: Данный скрипт принимает на вход ссылку и
 Python3 должен быть установлен.
 Затем используйте "pip" (или "pip3", есть конфлик с python2) для устанвки зависимостей:
 
-`pip install -r requerements.txt`
+```pip install -r requerements.txt```
 
 Рекомендуется использовать [vitrualenv/venv](https://docs.python.org/3/library/venv.html) для изоляции проекта.
 
